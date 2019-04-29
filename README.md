@@ -1,2 +1,2 @@
-# zest-recaptchav5
-Zest reCAPTCHAv5
+# zest-recaptchav3
+Zest reCAPTCHAv3
