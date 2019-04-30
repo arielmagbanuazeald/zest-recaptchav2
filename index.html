@@ -103,15 +103,15 @@
 			httpRequest.onreadystatechange = function () {
 				// If the request is complete
 				if (httpRequest.readyState === 4) {
-					// Parse to json
-					var response = JSON.parse(httpRequest.responseText);
-
 					// If the request failed
 					if (httpRequest.status !== 200) {
 						console.error(httpRequest.responseText);
 						captchaStatus.innerHTML = 'Could not verify token.';
 						return;
 					} else {
+						// Parse to json
+						var response = JSON.parse(httpRequest.responseText);
+
 						if (response.success) {
 							// user is verified and not a robot.
 							captchaStatus.innerHTML = 'Nice you are not a robot!';
