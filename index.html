@@ -104,7 +104,7 @@
 				// If the request is complete
 				if (httpRequest.readyState === 4) {
 					console.log(httpRequest.status);
-					
+
 					// If the request failed
 					if (httpRequest.status !== 200) {
 						console.error(httpRequest.responseText);
@@ -128,10 +128,8 @@
 			};
 
 			httpRequest.onloadend = function () {
-				if (httpRequest.status === 404) {
-					captchaStatus.innerHTML = 'Could not verify token.';
-					loader.classList.add('hidden');
-				}
+				captchaStatus.innerHTML = 'Could not verify token.';
+				loader.classList.add('hidden');
 			}
 
 			httpRequest.open('GET', 'siteverify.php?token=' + token);
