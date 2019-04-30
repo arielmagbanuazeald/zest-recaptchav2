@@ -17,8 +17,10 @@
 			display: -ms-flexbox;
 			display: -webkit-flex;
 			display: flex;
-			flex-direction: column; /* make main-axis vertical */
-			justify-content: flex-start; /* align items vertically, in this case */
+			flex-direction: column;
+			/* make main-axis vertical */
+			justify-content: flex-start;
+			/* align items vertically, in this case */
 			align-items: center;
 		}
 
@@ -28,11 +30,40 @@
 			text-align: center;
 		}
 
-		div#recaptchav2, div.loader{
+		div#recaptchav2,
+		div.loader {
 			display: flex;
-			flex-direction: column; /* make main-axis vertical */
-			justify-content: center; /* align items vertically, in this case */
+			flex-direction: column;
+			/* make main-axis vertical */
+			justify-content: center;
+			/* align items vertically, in this case */
 			align-items: center;
+		}
+
+		div#loader {
+			border: 6px solid #f3f3f3;
+			/* Light grey */
+			border-top: 6px solid #3498db;
+			/* Blue */
+			border-radius: 50%;
+			width: 60px;
+			height: 60px;
+			animation: spin 1s linear infinite;
+		}
+
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+
+		div.loader.hidden,
+		.hidden {
+			display: none;
 		}
 	</style>
 </head>
@@ -40,7 +71,8 @@
 <body>
 	<div class="outer-wrapper">
 		<div id="recaptchav2" class="flex-item"></div>
-		<div class="loader flex-item"></div>
+		<div id="loader" class="loader flex-item hidden"></div>
+		<p id="captcha-status">Please prove that you are not skynet :)</p>
 	</div>
 
 	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
@@ -55,6 +87,11 @@
 		var captchaResult = function (token) {
 			console.log(token);
 
+			var captchaStatus = document.getElementById('captcha-status');
+			captchaStatus.innerHTML = 'Please wait we are making sure that you are indeed not a robot!';
+			var loader = document.getElementById('loader');
+			loader.classList.remove('hidden');
+
 			// verify the result token
 			var httpRequest = new XMLHttpRequest();
 
@@ -66,23 +103,34 @@
 			httpRequest.onreadystatechange = function () {
 				// If the request is complete
 				if (httpRequest.readyState === 4) {
+					// Parse to json
+					var response = JSON.parse(httpRequest.responseText);
+
 					// If the request failed
 					if (httpRequest.status !== 200) {
 						console.error(httpRequest.responseText);
-
+						captchaStatus.innerHTML = 'Could not verify token.';
 						return;
 					} else {
-						// Parse to json
-						var response = JSON.parse(httpRequest.responseText);
-
 						if (response.success) {
 							// user is verified and not a robot.
+							captchaStatus.innerHTML = 'Nice you are not a robot!';
 						} else {
 							// user is a robot
+							captchaStatus.innerHTML = 'Token expired!';
 						}
 					}
+
+					loader.classList.add('hidden');
 				}
 			};
+
+			httpRequest.onloadend = function () {
+				if (httpRequest.status === 404) {
+					captchaStatus.innerHTML = 'Could not verify token.';
+					loader.classList.add('hidden');
+				}
+			}
 
 			httpRequest.open('GET', 'siteverify.php?token=' + token);
 			httpRequest.send();
