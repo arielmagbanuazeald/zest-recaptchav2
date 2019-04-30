@@ -1,12 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>reCAPTCHAv3</title>
+	<title>reCAPTCHAv2 - CheckBox</title>
+
+
 </head>
+
 <body>
-	<p>reCAPTCHAv3</p>
+	<p>reCAPTCHAv2 CheckBox</p>
+	<form action="?" method="POST">
+		<div id="recaptchav2"></div>
+		<br />
+		<input type="submit" value="Submit">
+	</form>
+
+	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+	<script>
+		var onloadCallback = function () {
+			grecaptcha.render('recaptchav2', {
+				'sitekey': '6Lct7aAUAAAAAEc9rqOw9Dvw2EO5c1M1ma-wa0eP',
+				'callback': captchaResult
+			});
+		};
+
+		var captchaResult = function (token) {
+			console.log(token);
+		}
+	</script>
 </body>
+
 </html>
