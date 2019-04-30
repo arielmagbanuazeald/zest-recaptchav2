@@ -103,6 +103,8 @@
 			httpRequest.onreadystatechange = function () {
 				// If the request is complete
 				if (httpRequest.readyState === 4) {
+					console.log(httpRequest.status);
+					
 					// If the request failed
 					if (httpRequest.status !== 200) {
 						console.error(httpRequest.responseText);
