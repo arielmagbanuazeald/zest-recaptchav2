@@ -6,10 +6,42 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>reCAPTCHAv2 - CheckBox</title>
+
+	<style>
+		div.outer-wrapper {
+			height: 100%;
+			padding: 18px;
+			margin: 0;
+			display: -webkit-box;
+			display: -moz-box;
+			display: -ms-flexbox;
+			display: -webkit-flex;
+			display: flex;
+			flex-direction: column; /* make main-axis vertical */
+			justify-content: flex-start; /* align items vertically, in this case */
+			align-items: center;
+		}
+
+		.flex-item {
+			width: 500px;
+			margin: 5px;
+			text-align: center;
+		}
+
+		div#recaptchav2, div.loader{
+			display: flex;
+			flex-direction: column; /* make main-axis vertical */
+			justify-content: center; /* align items vertically, in this case */
+			align-items: center;
+		}
+	</style>
 </head>
 
 <body>
-	<div id="recaptchav2"></div>
+	<div class="outer-wrapper">
+		<div id="recaptchav2" class="flex-item"></div>
+		<div class="loader flex-item"></div>
+	</div>
 
 	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
 	<script>
@@ -52,7 +84,7 @@
 				}
 			};
 
-			httpRequest.open('GET', 'siteverify.php?token='+token);
+			httpRequest.open('GET', 'siteverify.php?token=' + token);
 			httpRequest.send();
 		}
 	</script>
