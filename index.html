@@ -6,17 +6,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>reCAPTCHAv2 - CheckBox</title>
-
-
 </head>
 
 <body>
-	<p>reCAPTCHAv2 CheckBox</p>
-	<form action="?" method="POST">
-		<div id="recaptchav2"></div>
-		<br />
-		<input type="submit" value="Submit">
-	</form>
+	<div id="recaptchav2"></div>
 
 	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
 	<script>
@@ -29,6 +22,38 @@
 
 		var captchaResult = function (token) {
 			console.log(token);
+
+			// verify the result token
+			var httpRequest = new XMLHttpRequest();
+
+			if (!httpRequest) {
+				console.log('Cannot create an XMLHTTP instance');
+				return;
+			}
+
+			httpRequest.onreadystatechange = function () {
+				// If the request is complete
+				if (httpRequest.readyState === 4) {
+					// If the request failed
+					if (httpRequest.status !== 200) {
+						console.error(httpRequest.responseText);
+
+						return;
+					} else {
+						// Parse to json
+						var response = JSON.parse(httpRequest.responseText);
+
+						if (response.success) {
+							// user is verified and not a robot.
+						} else {
+							// user is a robot
+						}
+					}
+				}
+			};
+
+			httpRequest.open('GET', 'siteverify.php?token='+token);
+			httpRequest.send();
 		}
 	</script>
 </body>
