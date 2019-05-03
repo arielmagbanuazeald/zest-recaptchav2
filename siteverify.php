@@ -2,8 +2,8 @@
 define('SITE_SECRET', '6Lct7aAUAAAAAPMlZX-DvFSxn-ryUpS1lE1COg-y');
 define('BASE_URL', 'https://www.google.com/recaptcha/api/siteverify');
 
-if (isset($_GET['token'])) {
-	$token = $_GET['token'];
+if (isset($_POST['token'])) {
+	$token = $_POST['token'];
 	$ch = curl_init();
 
 	$url = BASE_URL."?secret=".SITE_SECRET."&response=$token";

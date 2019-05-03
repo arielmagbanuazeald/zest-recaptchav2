@@ -86,6 +86,8 @@
 
 		var captchaResult = function (token) {
 			console.log(token);
+			
+			var params = 'token='+token;
 
 			var captchaStatus = document.getElementById('captcha-status');
 			captchaStatus.innerHTML = 'Please wait we are making sure that you are indeed not a robot!';
@@ -127,13 +129,17 @@
 				}
 			};
 
-			httpRequest.onloadend = function () {
+			httpRequest.onerror = function () {
 				captchaStatus.innerHTML = 'Could not verify token.';
 				loader.classList.add('hidden');
 			}
 
-			httpRequest.open('GET', 'siteverify.php?token=' + token);
-			httpRequest.send();
+			httpRequest.open('POST', 'siteverify.php', true);
+
+			// set the request header for post params
+			httpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+			httpRequest.send(params);
 		}
 	</script>
 </body>
